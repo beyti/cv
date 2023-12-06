@@ -1,0 +1,282 @@
+%prepared in https://www.overleaf.com
+\documentclass{article}
+
+% ----- Packages -----
+\usepackage{titlesec} % Makes a section for the title
+\usepackage{titling} % Allows you to format the title
+\usepackage{sqrcaps} % Nice formatting for capitalized text
+\usepackage{geometry} % Allows us to modify page setup
+\usepackage{hyperref} % Required for hyperlinks
+\usepackage{changepage}
+\usepackage[parfill]{parskip} % Remove paragraph indentation
+\usepackage{setspace}
+\usepackage{xspace}
+\pagestyle{empty} % Suppress page numbers
+\usepackage{etoolbox}
+\usepackage{ifthen} % Required for ifthenelse statements
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+
+% ----- Font Override -----
+% \renewcommand{\familydefault}{\sfdefault}
+
+% ----- Page Formatting -----
+\geometry{ % Page layout setup
+         letterpaper,
+         left=.5in,
+         top=.5in,
+         bottom=.5in,
+         right=.5in
+    }
+    
+\hypersetup{ % Hyperlink layout setup
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    pdfpagemode=FullScreen,
+}
+
+% ----- Title Formatting -----
+\titleformat{\section}{\huge\bfseries}{}{0em}{}[\titlerule] 
+\titleformat{\subsection}{\bfseries\Large}{}{0em}{}
+\titleformat{\subsubsection}[runin]{}{}{0em}{} 
+
+% Toggle Definitions
+\newtoggle{show-confidential} % Specifies if confidential info is shown
+\newtoggle{show-exp-details} % Specifies if experience details is shown
+
+% Set Toggle Values
+\toggletrue{show-confidential}
+\toggletrue{show-exp-details}
+
+% ----- New Section Definitions -----
+
+% Education Section
+\newenvironment{rEdSection}[4]{ 
+    % 4 input arguments - Level, University name, Department, Years
+    {\bf #1} \hfill { \bf {#2}} % Bold Level and right aligned bold University name
+    \\
+    {#3} \hfill {#4} % Italic Department & Years
+    \vspace{0em}
+}
+
+% Experience Seection
+\newenvironment{rExpSection}[5]{
+    % 5 input arguments - Company Name, Title, Years, Location, Summary
+    {\bf #1} / {#2} \hfill {#3, #4}
+    \vspace{0.5em}
+    \\ {#5}
+
+    \vspace{0.3em}
+}
+
+\newenvironment{rExpDetails}[0]{
+    \begin{adjustwidth}{20pt}{0pt}
+    \begin{list}
+    {$\cdot$}{\leftmargin=0em}
+    \itemsep -0.5em \vspace{-0.5em}
+}{
+    \end{list}
+    \vspace{0.3em}
+    \end{adjustwidth}
+}
+
+\newenvironment{rExpDetailsByTitle}[2]{
+    \begin{adjustwidth}{10pt}{0pt}
+    {\bf #1} \hfill {#2}
+    \vspace{0.5em}
+    \end{adjustwidth}
+    \begin{adjustwidth}{20pt}{0pt}
+    \begin{list}
+    {$\cdot$}{\leftmargin=0em}
+    \itemsep -0.5em \vspace{-0.5em}
+}{
+    \end{list}
+    \vspace{0.3em}
+    \end{adjustwidth}
+}
+
+\newenvironment{rExpDetailsByTitleDouble}[4]{
+    \begin{adjustwidth}{10pt}{0pt}
+    {\bf #1} \hfill {#2}
+    \end{adjustwidth}
+    \begin{adjustwidth}{10pt}{0pt}
+    {\bf #3} \hfill {#4}
+    \vspace{0.5em}
+    \end{adjustwidth}
+    \begin{adjustwidth}{20pt}{0pt}
+    \begin{list}
+    {$\cdot$}{\leftmargin=0em}
+    \itemsep -0.5em \vspace{-0.5em}
+}{
+    \end{list}
+    \vspace{0.3em}
+    \end{adjustwidth}
+}
+
+% ----- Title Override -----
+\author{Beytan Kurtuluş}
+\date{09/21/2023}
+
+\renewcommand{\maketitle} {
+    \begin{center}
+        {\huge\bfseries\theauthor} \\
+
+        \begin{spacing}{1.5}
+            \begin{small}
+                \iftoggle{show-confidential}{
+                    \textbf{Birth Date:} May 1, 1986 - 
+                    \textbf{Location:} Istanbul, Turkey - 
+                    \textbf{Email:} 239826@gmail.com - 
+                }
+                
+                \textbf{Github:} \href{https://github.com/beyti}{beyti} - 
+                \textbf{Linkedin:} \href{https://linkedin.com/in/239826/}{239826}
+            \end{small}
+        \end{spacing}
+
+        \vspace{-1.5em}
+    \end{center}
+}
+
+% ----- Macros -----
+\newcommand{\ys}{YemekSepeti\xspace}
+\newcommand{\dhero}{Delivery Hero\xspace}
+\newcommand{\asp}{ASP.NET\xspace}
+
+% ----- Content -----
+\begin{document}
+
+\maketitle
+
+\section{Education}
+\begin{rEdSection}
+    {Graduate}{Middle East Technical University}{Computer Engineering}{Sep 2009 - May 2012}
+\end{rEdSection}
+
+\begin{rEdSection}
+    {Undergraduate}{Başkent University}{Electrical \& Electronics Engineering}{Sep 2003 - May 2008}
+\end{rEdSection}
+
+\section{Experience}
+\begin{rExpSection}
+    {\ys \& \dhero}
+    {Senior Software Manager}
+    {Oct 2016 - May 2023}
+    {Istanbul/Turkey}
+    {\ys is a food delivery leader in Turkey. Acquired by worldwide giant in the same sector, \dhero in 2015.
+    \\During my 6+ years, I had the chance to work in many roles with different responsibilities.
+    \\Had the privilege to work on multiple different projects, ranging from financial billing of whole \ys (both B2B and B2C) to Vendor Portal web applications that every business customer of the company used to run their business needs.}
+\end{rExpSection}
+
+\begin{rExpDetailsByTitle}
+    {Senior Software Engineering Manager, \dhero}
+    {Jun 2022 - May 2023}
+    \item Owner of the Vendor Portal Operations domain consisting of three squads in Turkey.
+    \item Managing two engineering managers who focus on vendor menu quality control \& vendor self service operations under VP Operations domain. 
+    \item Leading \& managing Menu Self Service squad directly, a team responsible for the product that every \dhero food vendor worldwide uses to manage their food menus.
+\end{rExpDetailsByTitle}
+
+\begin{rExpDetailsByTitleDouble}
+    {Senior Software Engineering Manager, \ys}
+    {Jan 2022 - Jun 2022}
+    {Software Engineering Manager, \ys}
+    {Mar 2020 - Jan 2022}
+    \item Engineering manager of 4 different squads in 2 different domains. 2 squads responsible for Vendor Portals and 2 squads responsible for billing applications.
+    \item Grew the single squad of 5 person to 4 squads of 30 people in 2 domains. While accomplishing this; I've planned and implemented renewal of HR's IT hiring process from scratch and developed a career plan framework for my teammates.
+    \item Transformed a 10 year old monolithic billing application into multiple microservices and separated B2B \& B2C businesses while doing so. This led to the success of transformation from \ys's in-house billing application to SAP based billing process during \ys's complete IT migration to \dhero.
+    \item Worked as a core part of \ys's migration to \dhero. This included migration of 2 domains I've managed; consisting of documentation of both business \& technical requirements of 2 domains' products and also management of squads on developing missing requirements on \dhero's corresponding Vendor Portal product.
+\end{rExpDetailsByTitleDouble}
+
+\begin{rExpDetailsByTitle}
+    {Software Architect}
+    {Jul 2019 - Mar 2020}
+    \item Worked as an unofficial, all hands Team Lead of 5 person squad.
+    \item Migrated large Vendor Portal application from .NET 4 to .NET Core. Later, this led the success of an early time to market in Vendor Portal of \ys Mahalle project.
+    \item Separated commission calculation business from the \ys's huge monolithic billing application to a single microservice. New microservice leveraged distributed architecture and a service bus layer which resulted in instant benefits: monthly commission calculation duration decreased from 8+ hours to 30min and the ability to micro manage single order commission errors. This milestone gave the billing domain proven reason to transform billing application to reformed and tightly scoped microservices and eventually led success to testable applications unlike previous monolithic including zero code tests.
+    \item Started growing the team with new hires to satisfy drastically increasing business needs on both billing and the Vendor Portal applications.
+\end{rExpDetailsByTitle}
+
+\phantom{This is a trick to allow one new line invisibly} \\
+\phantom{A newline has to follow a non empty paragraph next, so this is part of the trick as well}
+
+\begin{rExpDetailsByTitle}
+    {Senior Software Engineer}
+    {Jan 2018 - Jul 2019}
+    \item Orchestrated an organizational change in Backoffice domain that ended splitting an existing single squad to 2 different scoped teams. With this change, became a part of 3 person team working solely on billing related applications and Vendor Portal application.
+    \item After this change; as a team, we started improving our coding standards and quality. We improved the team's Joel Test score from 6/12 to 10/12 over time.
+    \item Fixed architectural problems preventing testability and later added coded tests to Vendor Portal and billing applications.
+    \item Added staging for billing application which then let us pre-run monthly billing applications which drastically improved production run failures during billing period.
+    \item Added automatic rule-checking microservice which was responsible for early identification of CRM errors that can prevent successful billing run. This servicei later will be the foundation of first separated microservice from the monolithic billing application.
+\end{rExpDetailsByTitle}
+
+\begin{rExpDetailsByTitle}
+    {Software Engineer}
+    {Oct 2016 - Jan 2018}
+    \item Worked on multiple Backoffice applications as a backend engineer in a team of 6. Projects included \ys's whole billing application, Vendor Portal application, CRM application and a few more tiny utility applications.
+    \item Created build \& deployment flows on TFS for previously manually built, deployed and had no versioning projects for most of the projects developed and maintained by team.
+    \item Reduced the extreme duration of \ys's monthly billing process run from 6+ days to 12 hours (which includes approval steps with real time wait times by human approvers)
+\end{rExpDetailsByTitle}
+
+\begin{rExpSection}
+    {Intertech}
+    {Software Developer}
+    {Apr 2015 - Jan 2016}
+    {Istanbul/Turkey}
+    {Intertech is the IT company of the DenizBank in Turkey, a subsidiary bank of Sberbank when I joined. 
+    \\Company develops every software need of the bank, mostly with in-house products.
+    \\Develop \& maintain two projects within the Internet Banking team.}
+\end{rExpSection}
+\begin{rExpDetails}
+    \item Develop and maintain bank queue management system for DenizBank.
+    \\ \hspace*{10mm} \textit{Project is a simple AngularJS SPA with \asp MVC backend.}
+    \item Maintain an in-house litigation software to track law cases.
+    \\ \hspace*{10mm} \textit{Project is a 3-tier \asp web application developed using an in-house framework built on top of .NET 3.5.}
+\end{rExpDetails}
+
+%\pagebreak
+
+\begin{rExpSection}
+    {Ceviz}
+    {Senior Consultant}
+    {Jul 2011 - Apr 2015}
+    {Istanbul/Turkey}
+    {Consultant on Microsoft .NET solutions, Sharepoint \& Team Foundation Server. 
+    \\ Worked outsource between SEP 2012 - AUG 2013 as a Technology Specialist at Microsoft Turkey on Developer Tools.}
+\end{rExpSection}
+
+\begin{rExpDetails}
+    \item Sharepoint Development at Borusan Otomotiv, İstinye/İSTANBUL
+    \\ \hspace*{10mm} \textit{Built a green field intranet portal using Sharepoint as a foundation.}
+    \item ALM Consultancy at BankPozitif, Kavacık/İSTANBUL
+    \\ \hspace*{10mm} \textit{Migrated Bank's ALM system from IBM ClearQuest to Microsoft TFS}
+    \item ALM Consultancy at Axa Sigorta, Beyoğlu/İSTANBUL
+    \\ \hspace*{10mm} \textit{Customized brand new MS TFS to support company's regulations through its application development lifecycle}
+    \item ALM Consultancy at Havelsan, ODTÜ Teknokent/ANKARA
+    \\ \hspace*{10mm} \textit{Upgraded and customized company's already in use MS TFS}
+    \item Software Development at Turkcell, Maltepe/İSTANBUL
+    \\ \hspace*{10mm} \textit{Developed and maintained Turkcell.com.tr project. Project was built on Sharepoint using modular \asp applications}
+    \item Software Development at Coca-Cola Companty, Altunizade/İSTANBUL
+    \\ \hspace*{10mm} \textit{Maintained and then re-written a Stakeholder Management web application built with \asp}
+\end{rExpDetails}
+
+\begin{rExpSection}
+    {Locksmith Software Technologies}
+    {Software Engineer}
+    {Nov 2009 - Jun 2011}
+    {Ankara/Turkey}
+    {Develop portal solutions with Microsoft Sharepoint and implement a custom LMS for universities built with .NET}
+\end{rExpSection}
+
+\begin{rExpDetails}
+    \item Developed an LMS for e-learning on universities.
+    \\ \hspace*{10mm} \textit{Project is built on Sharepoint Foundation with custom \asp applications.}
+    \item Developed multiple Sharepoint intranet portal projects built with \asp
+    \\ \hspace*{10mm} \textit{T.C. İçişleri Bakanlığı - Uzaktan Eğitim Platformu}
+    \\ \hspace*{10mm} \textit{T.C. Sanayi ve Ticaret Bakanlığı - Tip Onay Projesi}
+    \\ \hspace*{10mm} \textit{Türkiye Odalar ve Borsalar Birliği - TOBB Sharepoint Portal}
+    \\ \hspace*{10mm} \textit{Eletrik Üretim A.Ş. - EÜAŞ Sharepoint Portal}
+\end{rExpDetails}
+
+\end{document}
